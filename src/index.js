@@ -6,7 +6,7 @@ import Store from './store.js';
 //добавила функцию, которая запускает счетчик через замыкание, 
 //для определения уникального id
 function counterid(){
-  var i = 0;
+  let i = 0;
 
   return function(){
       return i++;
