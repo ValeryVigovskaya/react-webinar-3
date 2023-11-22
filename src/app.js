@@ -1,5 +1,4 @@
 import React from 'react';
-import {createElement} from './utils.js';
 import './styles.css';
 
 /**
@@ -22,11 +21,13 @@ function App({store}) {
       <div className='App-center'>
         <div className='List'>{
           list.map(item =>
-            <div key={item.code} className='List-item'>
+            <div key={item.id} className='List-item'>
               <div className={'Item' + (item.selected ? ' Item_selected' : '')}
                    onClick={() => store.selectItem(item.code)}>
                 <div className='Item-code'>{item.code}</div>
-                <div className='Item-title'>{item.title}</div>
+                <div className='Item-title'>{item.title}
+                {/* если каунтер будет больше нуля, будет появляться нужная фраза */}
+                {item.counter > 0 && <span className='Item-span'>Выделяли {item.counter} раз</span>}</div>
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
                     Удалить

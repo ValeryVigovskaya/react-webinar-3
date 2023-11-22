@@ -1,6 +1,8 @@
 /**
  * Хранилище состояния приложения
  */
+import {getUniqueId} from "./utils";
+import {uuid} from "./index"
 class Store {
   constructor(initState = {}) {
     this.state = initState;
@@ -44,7 +46,7 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись', counter: 0,  id: uuid()}]
     })
   };
 
@@ -56,7 +58,9 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.filter(item => item.code !== code)
-    })
+    });
+    sessionStorage.setItem(`key`, code);
+    console.log(Object.keys(sessionStorage))
   };
 
   /**
@@ -69,6 +73,10 @@ class Store {
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
+          item.counter = item.counter+1;
+          //добавила else, чтобы состояние активного класса было null
+        } else {
+          item.selected = '';
         }
         return item;
       })
