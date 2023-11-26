@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import {create} from './utils'
+import {createPluralization} from './utils'
 
 /**
  * Приложение
@@ -28,7 +28,7 @@ function App({store}) {
                 <div className='Item-code'>{item.code}</div>
                 <div className='Item-title'>{item.title}
                 {/* если каунтер будет больше нуля, будет появляться нужная фраза */}
-                {item.counter > 0 && <span className='Item-span'>Выделяли {create(item.counter, ['раз', 'раза'])}</span>}</div>
+                {item.counter > 0 && <span className='Item-span'>Выделяли {createPluralization(item.counter, ['раз', 'раза'])}</span>}</div>
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
                     Удалить
