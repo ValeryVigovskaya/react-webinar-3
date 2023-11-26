@@ -26,3 +26,21 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+export const create = (countNumber, arrayCases) => {
+  //добавила переменную, которая возвращает наименьшую 
+  //значащую цифру, для создания условий отображения
+  let number = countNumber % 10;
+  if (number > 10 && number < 20){ 
+      return `${countNumber} ${arrayCases[0]}`; 
+  }
+  if (number > 1 && number < 5){
+       return `${countNumber} ${arrayCases[1]}`; 
+      }
+  if (number === 1){ 
+      return `${countNumber} ${arrayCases[0]}`; 
+  }
+  return `${countNumber} ${arrayCases[0]}`;
+}
+
+// console.log(create(756, ['раз', 'раза']))

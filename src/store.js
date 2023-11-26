@@ -46,7 +46,7 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись', counter: 0,  id: uuid()}]
+      list: [...this.state.list, {code: uuid(), title: 'Новая запись', counter: 0}]
     })
   };
 
@@ -77,6 +77,10 @@ class Store {
           //добавила else, чтобы состояние активного класса было null
         } else {
           item.selected = '';
+        }
+        //добавила условие, емли класс неактивный и код равен, счетчик будет на месте
+        if (item.code === code && item.selected === false){
+           item.counter = item.counter-1;
         }
         return item;
       })
