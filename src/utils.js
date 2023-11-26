@@ -27,7 +27,7 @@ export function createElement(name, props = {}, ...children) {
   return element;
 }
 
-export const create = (countNumber, arrayCases) => {
+export const createPluralization = (countNumber, arrayCases) => {
   //добавила переменную, которая возвращает наименьшую 
   //значащую цифру, для создания условий отображения
   let number = countNumber % 10;
