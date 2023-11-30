@@ -1,7 +1,16 @@
 .List {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .List-item {
   border-bottom: 1px dashed #ccc;
+}
+
+.List-item:first-of-type {
+  border-top: 1px dashed #ccc;
+}
+
+.List-item:last-of-type {
+  border-top: 1px dashed #ccc;
 }

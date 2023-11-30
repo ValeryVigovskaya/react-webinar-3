@@ -1,9 +1,21 @@
 .Head {
   height: 80px;
   background: #f5f5f5;
+  display: flex;
+  justify-content: space-between;
 }
 
 .Head h1 {
   margin: 0;
   padding: 20px 20px 10px;
+}
+
+.Head div {
+  margin-right: 10px;
+
+}
+
+.Head_bascket{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }

@@ -50,3 +50,12 @@ export const generateCode1 = (function (start = 0) {
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : generateCode2.value = 1;
 }
+
+//функция форматировария стоимости
+export const formattedCost = (number) => {
+  if (number < 1000) {
+    return number.toString();  // если число меньше 1000, возвращаем его без изменений
+  } else {
+    return new Intl.NumberFormat('ru-RU').format(number)
+  }
+}

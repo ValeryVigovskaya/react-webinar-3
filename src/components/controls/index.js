@@ -1,21 +1,29 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import './style.css';
+import TotalPrice from "../total-price/index";
 
-function Controls({onAdd}) {
+
+function Controls({ array, count, modal, buttonName }) {
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+      <TotalPrice array={array} count={count} buttonName={buttonName} />
+       <button className='Controls-button' onClick={() => modal()}>{buttonName}</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  array: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.number
+  })),
+  buttonName: PropTypes.node,
+  modal: PropTypes.func,
+  count: PropTypes.number
 };
 
 Controls.defaultProps = {
-  onAdd: () => {}
+  modal: () => { }
 }
 
 export default React.memo(Controls);
