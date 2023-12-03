@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Item from "../item";
 import './style.css';
 import TotalPrice from "../total-price/index";
-function List({ list, addToCart, button, buttonAction, count }) {
+function List({ list, addToCart, button, buttonAction, totalPrice }) {
   return (
     <div className='List'>{
       list.map(item =>
@@ -11,7 +11,7 @@ function List({ list, addToCart, button, buttonAction, count }) {
           <Item item={item} addToCart={addToCart} button={button} buttonAction={buttonAction} />
         </div>
       )}
-       <TotalPrice array={list} count={count} buttonName={button} />
+       <TotalPrice array={list} totalPrice={totalPrice} buttonName={button} />
     </div>
   )
 }

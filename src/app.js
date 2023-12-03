@@ -13,28 +13,16 @@ import EmptyPage from './components/empty-page';
  */
 function App({ store }) {
   const list = store.getState().list;
-  const [bascet, setBascet] = useState([]);
-  const [count, setCount] = useState(0);
+  const bascet = store.getState().bascet;
+  const totalPriceBascet = store.getState().totalPriceBascet;
+  // const [bascet, setBascet] = useState([]);
+  // const [count, setCount] = useState(0);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const callbacks = {
-    addToCart: useCallback((item, quantity = 1) => {
-      // нужно проверить, нет ли уже такого товара в корзине
-      const itemFind = bascet.find(el => el.code === item.code);
-      const updatedArray = [...bascet];
-      if (!itemFind) {
-        const newItem = {
-          ...item,
-          quantity: quantity
-        };
-        setBascet([...bascet, newItem]);
-        setCount(count + 1)
-      } else {
-        itemFind.quantity = itemFind?.quantity + 1;
-        setBascet(updatedArray);
-        setCount(count + 1)
-      }
-    }, [bascet]),
+    addToCart: useCallback((code) => {
+      store.addToCart(code);
+    }, [store]),
 
     openModal: useCallback(() => {
       setIsOpenModal(true);
@@ -44,21 +32,18 @@ function App({ store }) {
       setIsOpenModal(false);
     }, [isOpenModal]),
 
-    deleteItemFromCard: useCallback((item) => {
-      const updatedArray = bascet.filter(el => el.code !== item.code);
-      setBascet(updatedArray);
-      setCount(count - item.quantity)
-    }, [bascet]),
+    deleteItemFromCard: useCallback((code) => {
+      store.deleteItemFromCard(code);
+    }, [store]),
   }
-  // // console.log(bascet)
-  // console.log(count)
+
   return (
   <>
     <PageLayout>
       <Head title='Магазин' />
       <Controls
         array={bascet}
-        count={count}
+        totalPrice={totalPriceBascet}
         modal={callbacks.openModal}
         buttonName='Перейти'
       />
@@ -68,8 +53,9 @@ function App({ store }) {
     {isOpenModal && (
       (<Modal onClose={callbacks.closeModal}>
         <>
-        <Head title='Корзина' array={bascet} count={count} modal={callbacks.closeModal} buttonName='Закрыть' />
+        <Head title='Корзина' array={bascet} totalPrice={totalPriceBascet} modal={callbacks.closeModal} buttonName='Закрыть' />
         {bascet.length ? (<List list={bascet}
+          totalPrice={totalPriceBascet}
           buttonAction={callbacks.deleteItemFromCard}
           button='Удалить' />) : <EmptyPage description='Пусто'/>}
         </>

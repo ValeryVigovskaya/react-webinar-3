@@ -1,6 +1,6 @@
  .Modal-container {
-  width: 960px;
-  min-height: 407px;
+  width: 959px;
+  /* min-height: 407px; */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -11,5 +11,5 @@
   display: flex;
   flex-direction: column;
   gap: 71px;
-  padding-bottom: 89px;
+  /* padding-bottom: 89px; */
 }

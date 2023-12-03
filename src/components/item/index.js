@@ -7,11 +7,11 @@ function Item(props) {
   const callbacks = {
     deleteItemFromCard: (e) => {
       e.stopPropagation();
-      props.buttonAction(props.item);
+      props.buttonAction(props.item.code);
     },
 
     addToCart: () => {
-      props.buttonAction(props.item);
+      props.buttonAction(props.item.code);
     }
 }
 

@@ -4,10 +4,10 @@ import './style.css';
 import TotalPrice from "../total-price/index";
 
 
-function Controls({ array, count, modal, buttonName }) {
+function Controls({ array,  modal, buttonName, totalPrice}) {
   return (
     <div className='Controls'>
-      <TotalPrice array={array} count={count} buttonName={buttonName} />
+      <TotalPrice array={array} buttonName={buttonName} totalPrice={totalPrice}/>
        <button className='Controls-button' onClick={() => modal()}>{buttonName}</button>
     </div>
   )

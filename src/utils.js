@@ -59,3 +59,10 @@ export const formattedCost = (number) => {
     return new Intl.NumberFormat('ru-RU').format(number)
   }
 }
+
+//функция счета полной стоимости
+export const totalPrice = (array) => {
+  return array.reduce((acc, item) => {
+     return acc + item.price * item.quantity;
+   }, 0)
+ };

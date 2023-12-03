@@ -1,4 +1,5 @@
-import { generateCode } from "./utils";
+import item from "./components/item";
+import { generateCode, totalPrice } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -41,45 +42,47 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
    */
-  // addItem() {
-  //   this.setState({
-  //     ...this.state,
-  //     list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }]
-  //   })
-  // };
+
+  addToCart(code, quantity = 1) {
+    const itemFind = this.state.bascet.find(el => el.code === code);
+    if (!itemFind) {
+      //сначала создадим переменную с новым эдементом
+      const newItem = {
+        ...this.state.list.find(el => el.code === code),
+        quantity: quantity
+      };
+      this.setState({
+        ...this.state,
+        bascet: [...this.state.bascet, newItem],
+        totalPriceBascet: totalPrice([...this.state.bascet, newItem])
+      });
+    } else {
+      itemFind.quantity = itemFind?.quantity + 1;
+      this.setState({
+        ...this.state,
+        bascet: [...this.state.bascet],
+        totalPriceBascet: totalPrice([...this.state.bascet])
+      });
+    }
+  };
+
+
 
   /**
-   * Удаление записи по коду
+   * Удаление товара из корзины по коду
    * @param code
    */
-  // deleteItem(code) {
-  //   this.setState({
-  //     ...this.state,
-  //     // Новый список, в котором не будет удаляемой записи
-  //     list: this.state.list.filter(item => item.code !== code)
-  //   })
-  // };
-  deleteItem(code) {
+  deleteItemFromCard(code) {
+    const newArr = [...this.state.bascet].filter(item => item.code !== code);
     this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        //если код соответствует, то количество товара в корзине увеличивается
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            count: item.count + 1
-          };
-        }
-        return item;
-      })
+      // Новый список, в котором не будет удаляемой записи
+      bascet: newArr,
+      totalPriceBascet: totalPrice(newArr)
     })
-  }
+  };
 }
-
-
 /**
  * Выделение записи по коду
  * @param code

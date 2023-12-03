@@ -1,4 +1,5 @@
 .EmptyPage {
+  margin-top: -50px;
   display: flex;
   justify-self: center;
   align-self: center;

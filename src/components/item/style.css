@@ -19,11 +19,12 @@
 }
 
 .Item-price {
-  width: 15%;
+  width: 20%;
   align-self: center;
   text-align: right;
   font-size: 18px;
   padding-right: 15px;
+  color: #404040;;
 }
 
 .Item-quantity {
@@ -34,6 +35,7 @@
   align-self: center;
   padding-left: 12px;
   padding-right: 15px;
+  color: #404040;
 }
 
 .Item-actions {
