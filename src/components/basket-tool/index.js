@@ -1,13 +1,26 @@
-import {memo} from "react";
+import { memo } from "react";
 import PropTypes from 'prop-types';
-import {cn as bem} from '@bem-react/classname';
-import {numberFormat, plural} from "../../utils";
+import { cn as bem } from '@bem-react/classname';
+import { numberFormat, plural } from "../../utils";
 import './style.css';
+import { Link, useNavigate, useLocation, useMatch} from "react-router-dom";
 
-function BasketTool({sum, amount, onOpen}) {
+
+function BasketTool({ sum, amount, onOpen}) {
   const cn = bem('BasketTool');
+  const navigate = useNavigate();
+  const homeLink = useMatch("/");
+  const location = useLocation();
+  const onClickHome = () => {
+    navigate('/', { replace: true });
+  };
   return (
+  <div className="basket-container">
+    <Link to={{ pathname: "/" }} className='basket-container_link' onClick={onClickHome}>
+      Главная
+    </Link>
     <div className={cn()}>
+
       <span className={cn('label')}>В корзине:</span>
       <span className={cn('total')}>
         {amount
@@ -19,8 +32,24 @@ function BasketTool({sum, amount, onOpen}) {
           : `пусто`
         }
       </span>
-      <button onClick={onOpen}>Перейти</button>
+     {homeLink? <Link
+        to={{
+          pathname: "/",
+          state: { background: location }
+        }}
+        className="basket-container_button"
+        onClick={onOpen}
+      >Перейти</Link> : <Link
+      to={{
+        pathname: "/:id",
+        state: { background: location }
+      }}
+      className="basket-container_button"
+      onClick={onOpen}
+    >Перейти</Link>}
     </div>
+
+  </div>
   );
 }
 
@@ -31,7 +60,7 @@ BasketTool.propTypes = {
 };
 
 BasketTool.defaultProps = {
-  onOpen: () => {},
+  onOpen: () => { },
   sum: 0,
   amount: 0
 }
