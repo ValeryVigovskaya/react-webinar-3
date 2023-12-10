@@ -5,12 +5,13 @@ import ModalLayout from "../../components/modal-layout";
 import BasketTotal from "../../components/basket-total";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
-import { Link, useLocation, useMatch, Outlet } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Item from "../../components/item";
 import ProductInfo from '../../pages/index'
 
 function Basket() {
   const store = useStore();
+  const { id } = useParams();
   const select = useSelector(state => ({
     list: state.basket.list,
     amount: state.basket.amount,

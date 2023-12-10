@@ -7,7 +7,7 @@ import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from '../../components/pagination';
-import { useMatch, Outlet } from "react-router-dom";
+import { useMatch, Outlet,useParams } from "react-router-dom";
 import ProductInfo from '../../pages/index'
 let PageSize = 10;
 function Main() {
@@ -16,18 +16,21 @@ function Main() {
   const [currentPage, setCurrentPage] = useState(1);
   const homeLink = useMatch("/");
   const itemLink = useMatch("/:id");
+   const { id } = useParams();
+
 
   useEffect(() => {
-    store.actions.catalog.loadPages();
+    store.actions.catalog.loadPages(currentPage);
   }, [store]);
 
   const handleChange = useCallback((newPage) => {
     setCurrentPage(newPage)
     store.actions.catalog.loadPages(newPage);
   }, [store]);
-
+  // store.actions.catalog.load();
   const select = useSelector(state => ({
     list: state.catalog.list,
+    listAll: state.catalog.listAll,
     amount: state.basket.amount,
     sum: state.basket.sum,
     limit: state.catalog.limit,
@@ -42,7 +45,12 @@ function Main() {
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     //открытие страницы с информацией
-    getItemInfo: useCallback((_id) => store.actions.item.getItemInfo(_id), [store]),
+    getItemInfo: useCallback((_id) =>
+    store.actions.item.getItemInfo(_id)
+    , [store]),
+    getItemById: useCallback((id) =>
+    store.actions.item.getItemById(id)
+    , [store]),
   }
 
   const renders = {
@@ -50,15 +58,15 @@ function Main() {
       return <Item item={item} onAdd={callbacks.addToBasket} getItemInfo={callbacks.getItemInfo} />
     }, [callbacks.addToBasket, callbacks.getItemInfo]),
   };
-
+console.log(id)
   return (
     <PageLayout>
-      <Head title={homeLink ? 'Магазин' : 'Название товара'} />
+      <Head title={homeLink ? 'Магазин' : (select.itemInfo? select.itemInfo?.title: '')} />
       {(homeLink || itemLink) && <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
         sum={select.sum} />}
       {homeLink &&
         (<>
-          <List list={select.list} renderItem={renders.item} />
+         <List list={select.list} renderItem={renders.item} />
           <Pagination
             totalPages={select.limit}
             currentPage={currentPage}
@@ -66,8 +74,8 @@ function Main() {
             onPageChange={handleChange}
           />
         </>)}
-      {itemLink && (select.itemInfo !== undefined) && (
-        <ProductInfo renderItem={renders.item(select.itemInfo)} item={select.itemInfo} />
+      {!!itemLink && (
+        <ProductInfo renderItem={renders.item} item={select.itemInfo !== null? select.itemInfo : callbacks.getItemById(id)}/>
       )}
       <Outlet />
     </PageLayout>

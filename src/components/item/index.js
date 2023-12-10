@@ -1,24 +1,26 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat } from "../../utils";
 import './style.css';
-import { useNavigate, Link, useMatch } from "react-router-dom";
+import { useNavigate, Link, useMatch, useParams} from "react-router-dom";
 
 function Item(props) {
   const navigate = useNavigate();
   const cn = bem('Item');
   const homeLink = useMatch("/");
   const itemLink = useMatch("/:id");
-
+  const { id } = useParams();
+  // const newId = props.getItemInfo(id);
   const callbacks = {
-    onAdd: (e) => props.onAdd(props.item._id),
+    onAdd: (e) => props.onAdd(id),
+    getItemInfo: (e) => props.getItemInfo(props.item._id),
   }
 
   const onClickLink = (e) => {
     e.preventDefault();
     navigate(`/${props.item._id}`, { replace: true });
-    props.getItemInfo(props.item._id);
+    callbacks.getItemInfo(props.item._id);
   };
 
   return (
@@ -41,7 +43,6 @@ function Item(props) {
           <div className="Item-info__title Item-info__title_size Item-info__title_bold">Цена: {props.item.price} ₽</div>
           <div className="Item-info__button"><button onClick={callbacks.onAdd}>Добавить</button></div>
       </div>}
-
     </div>
   );
 }
@@ -51,7 +52,7 @@ Item.propTypes = {
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     price: PropTypes.number
-  }).isRequired,
+  }),
   onAdd: PropTypes.func,
 };
 

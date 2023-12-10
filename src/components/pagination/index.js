@@ -20,7 +20,7 @@ const usePaginationRange = ({
           3);
       } else if (currentPage === lastPageIndex){
         return Math.min(
-          currentPage,
+          currentPage - 1,
           2);
       }
 
@@ -51,7 +51,12 @@ const usePaginationRange = ({
     //отображение точек с обеих сторон
     if (shouldShowLeftDots && shouldShowRightDots) {
       let middleRange = range(leftIndex, rightIndex());
-      return [firstPageIndex, dots, ...middleRange, dots, lastPageIndex];
+      if(middleRange.find((item)=> item === lastPageIndex)){
+        middleRange = range((leftIndex-1), rightIndex());
+        return [firstPageIndex, dots, ...middleRange, lastPageIndex];
+      } else {
+        return [firstPageIndex, dots, ...middleRange, dots, lastPageIndex];
+      }
     }
   }, [pagesCount, currentPage]);
 
@@ -61,7 +66,7 @@ const usePaginationRange = ({
 function PaginationItem({ page, currentPage, onPageChange }) {
   return (
     <>
-      {page && <button onClick={() => onPageChange(page)} className={'list__item' + (currentPage === page ? ' list__item_active' : '')}>
+      {page && <button onClick={()=>onPageChange(page)} className={'list__item' + (currentPage === page ? ' list__item_active' : '')}>
         <span>{page}</span>
       </button>}
       {!page &&
@@ -84,7 +89,7 @@ function Pagination({ totalPages, currentPage, onPageChange, limit }) {
   return (
     <div className='list'>
       {paginationRange?.length && paginationRange?.map((page, index) => (
-        <PaginationItem page={page} key={index} currentPage={currentPage} onPageChange={onPageChange} pagesCount={pagesCount} />
+        <PaginationItem page={page} key={index} currentPage={currentPage} onPageChange={onPageChange}/>
       ))}
     </div>
   );
